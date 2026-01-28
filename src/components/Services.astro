@@ -1,0 +1,31 @@
+---
+const services = [
+  'System Architecture',
+  'React / Next.js Development',
+  'Mobile (React Native / iOS)',
+  'UI Engineering',
+  'Backend & API Integration'
+];
+---
+
+<section id="services" class="section container cv-auto">
+  <div class="border-t border-border pt-8">
+    <div class="grid gap-8 md:grid-cols-[1fr_2fr]">
+      <div>
+        <h2 class="text-2xl font-semibold mb-4">Capabilities</h2>
+        <p class="text-text-muted max-w-[250px]">
+          Full-cycle development from architectural design to production deployment.
+        </p>
+      </div>
+
+      <div class="grid">
+        {services.map((item, idx) => (
+          <div class="py-6 border-b border-border flex items-center gap-4 text-xl">
+            <span class="text-primary text-xs font-mono">0{idx + 1}</span>
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

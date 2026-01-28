@@ -1,0 +1,18 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProjectTemplate from '../../components/ProjectTemplate.astro';
+import { projects, getNextProject } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project, nextProject: getNextProject(project.id) }
+  }));
+}
+
+const { project, nextProject } = Astro.props;
+---
+
+<Layout title={project.title}>
+  <ProjectTemplate project={project} nextProject={nextProject} />
+</Layout>

@@ -36,7 +36,7 @@ const Contact: React.FC = () => {
 
     if (status === 'success') {
         return (
-            <section id="contact" className="section container pb-32">
+            <section id="contact" className="section container pb-32 cv-auto">
                 <div className="tech-card p-16 text-center border-primary">
                     <h3 className="text-3xl mb-4">Message Received</h3>
                     <p className="text-text-muted">We'll be in touch shortly to discuss your project.</p>
@@ -53,7 +53,7 @@ const Contact: React.FC = () => {
 
     if (status === 'error') {
         return (
-            <section id="contact" className="section container pb-32">
+            <section id="contact" className="section container pb-32 cv-auto">
                 <div className="tech-card p-16 text-center border-red-500">
                     <h3 className="text-3xl mb-4">Something Went Wrong</h3>
                     <p className="text-text-muted">Please try again or email us directly at hello@lintu.dev</p>
@@ -69,7 +69,7 @@ const Contact: React.FC = () => {
     }
 
     return (
-        <section id="contact" className="section container pb-32">
+        <section id="contact" className="section container pb-32 cv-auto">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
                 <div>
                     <h2 className="text-3xl font-semibold mb-4">Start a Project</h2>

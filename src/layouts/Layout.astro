@@ -1,0 +1,84 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+}
+
+const { title = 'Lintu Dev Studio' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body>
+    <div class="min-h-screen flex flex-col">
+      <header class="fixed top-0 left-0 right-0 z-50 py-4 bg-bg border-b border-border">
+        <div class="container flex justify-between items-center">
+          <a href="/" class="font-bold text-xl tracking-tighter flex items-center gap-2 z-50 hover:text-primary transition-colors">
+            LINTU <span class="text-primary">//</span> DEV
+          </a>
+
+          <nav class="hidden md:block">
+            <ul class="flex gap-8 list-none">
+              {['Work', 'Services', 'Contact'].map((item) => (
+                <li>
+                  <a
+                    href={`#${item.toLowerCase()}`}
+                    class="text-sm font-medium text-text-muted transition-colors hover:text-primary"
+                  >
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          <details class="md:hidden relative">
+            <summary
+              class="list-none cursor-pointer z-50 flex flex-col justify-center gap-[6px] w-[30px] h-[30px]"
+              aria-label="Toggle menu"
+            >
+              <span class="block w-full h-[2px] bg-current" />
+              <span class="block w-full h-[2px] bg-current" />
+              <span class="block w-full h-[2px] bg-current" />
+            </summary>
+            <div class="fixed inset-0 bg-bg z-40 p-24 flex flex-col gap-8">
+              <ul class="flex flex-col gap-8 list-none">
+                {['Work', 'Services', 'Contact'].map((item) => (
+                  <li>
+                    <a
+                      href={`#${item.toLowerCase()}`}
+                      class="text-4xl font-bold text-text-main inline-block"
+                    >
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-auto border-t border-border pt-8">
+                <p class="text-text-muted">hello@lintu.dev</p>
+              </div>
+            </div>
+          </details>
+        </div>
+      </header>
+
+      <main class="flex-1 pt-20">
+        <slot />
+      </main>
+
+      <footer class="py-16 border-t border-border mt-16">
+        <div class="container text-center text-text-muted">
+          <p>&copy; {new Date().getFullYear()} Lintu Dev. All rights reserved.</p>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
