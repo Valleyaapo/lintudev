@@ -1,53 +1,95 @@
-# React + TypeScript + Vite
+# Lintu Dev Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Specialized development studio shipping high-performance web applications and mobile solutions.
 
-Currently, two official plugins are available:
+🌐 **Website**: [lintu.dev](https://lintu.dev)  
+📧 **Contact**: hello@lintu.dev  
+𝕏 **Twitter**: [@lintudev](https://x.com/lintudev)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Tech Stack
 
-## React Compiler
+- **Frontend**: React 19, TypeScript, Vite
+- **Styling**: Tailwind CSS
+- **Animation**: Framer Motion
+- **3D Graphics**: Three.js, React Three Fiber
+- **Deployment**: Vercel
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Features
 
-## Expanding the ESLint configuration
+- ⚡ Lightning-fast performance
+- 🎨 Modern, clean design system
+- 📱 Fully responsive
+- ♿ Accessible components
+- 🔒 Form spam protection (honeypot + rate limiting)
+- 📧 Working contact form (Resend integration)
+- 🔍 SEO optimized with meta tags and JSON-LD
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Getting Started
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Prerequisites
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Node.js 18+ 
+- npm or pnpm
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+### Installation
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Development
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
+```bash
+npm run dev
+```
+
+### Build
+
+```bash
+npm run build
+```
+
+### Preview
+
+```bash
+npm run preview
+```
+
+## Environment Variables
+
+For the contact form to work, set up:
+
+```env
+RESEND_API_KEY=your_resend_api_key
+```
+
+See [.env.example](.env.example) for details.
+
+## Project Structure
+
+```
+src/
+├── components/     # React components
+├── pages/         # Page components
+├── hooks/         # Custom hooks
+└── assets/        # Static assets
+api/
+└── contact.ts     # Vercel serverless function
+```
+
+## Deployment
+
+This project is configured for Vercel deployment:
+
+1. Connect your GitHub repository to Vercel
+2. Add `RESEND_API_KEY` to environment variables
+3. Deploy!
+
+The `vercel.json` file handles client-side routing automatically.
+
+## License
+
+© 2026 Lintu Dev Studio. All rights reserved.
 import reactDom from 'eslint-plugin-react-dom'
 
 export default defineConfig([
