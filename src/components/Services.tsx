@@ -21,7 +21,7 @@ const Services: React.FC = () => {
                             "React / Next.js Development",
                             "Mobile (React Native / iOS)",
                             "UI Engineering",
-                            "Backend Integration"
+                            "Backend & API Integration"
                         ].map((item, idx) => (
                             <div key={idx} style={{
                                 padding: '1.5rem 0',

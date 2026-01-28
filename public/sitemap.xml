@@ -2,28 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://lintu.dev/</loc>
-    <lastmod>2025-01-26</lastmod>
+    <lastmod>2025-01-28</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://lintu.dev/project/financeflow</loc>
-    <lastmod>2025-01-26</lastmod>
+    <loc>https://lintu.dev/project/linjalla</loc>
+    <lastmod>2025-01-28</lastmod>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://lintu.dev/project/nebulastream</loc>
-    <lastmod>2025-01-26</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://lintu.dev/project/ecotrack</loc>
-    <lastmod>2025-01-26</lastmod>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://lintu.dev/project/zenithui</loc>
-    <lastmod>2025-01-26</lastmod>
+    <loc>https://lintu.dev/project/jatkopaikka</loc>
+    <lastmod>2025-01-28</lastmod>
     <priority>0.8</priority>
   </url>
 </urlset>

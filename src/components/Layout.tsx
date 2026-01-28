@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 interface LayoutProps {
   children: React.ReactNode;
@@ -32,9 +33,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           }`}
       >
         <div className="container flex justify-between items-center">
-          <div className="font-bold text-xl tracking-tighter flex items-center gap-2 z-50">
+          <Link to="/" className="font-bold text-xl tracking-tighter flex items-center gap-2 z-50 hover:text-primary transition-colors">
             LINTU <span className="text-primary">//</span> DEV
-          </div>
+          </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:block">

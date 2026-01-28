@@ -1,36 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-const projects = [
-    {
-        id: "financeflow",
-        title: "FinanceFlow",
-        category: "FinTech Infrastructure",
-        description: "Real-time investment tracking dashboard with sub-millisecond updates.",
-        year: "2025"
-    },
-    {
-        id: "nebulastream",
-        title: "Nebula Stream",
-        category: "Media Platform",
-        description: "Low-latency streaming architecture handling 100k+ concurrent viewers.",
-        year: "2024"
-    },
-    {
-        id: "ecotrack",
-        title: "EcoTrack",
-        category: "IoT / Mobile",
-        description: "Sensor data visualization and analytics platform for environmental monitoring.",
-        year: "2024"
-    },
-    {
-        id: "zenithui",
-        title: "Zenith UI",
-        category: "Open Source",
-        description: "Accessible, unstyled primitive component library for React.",
-        year: "2023"
-    }
-];
+import { projects } from '../data/projects';
 
 const Showcase: React.FC = () => {
     return (
