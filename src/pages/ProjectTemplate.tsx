@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
 import SEO from '../components/SEO';
 import { getProject, getNextProject } from '../data/projects';
 import NotFound from './NotFound';
@@ -30,12 +29,9 @@ const ProjectTemplate: React.FC = () => {
     };
 
     return (
-        <motion.div
+        <div
             className="container section mt-24"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            style={{ animation: 'slide-up-fade 0.5s ease-out' }}
         >
             <SEO title={title} jsonLd={softwareSchema} />
 
@@ -146,7 +142,7 @@ const ProjectTemplate: React.FC = () => {
                     <span className="group-hover:text-primary transition-colors">{nextProject?.title.toUpperCase()} &rarr;</span>
                 </Link>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

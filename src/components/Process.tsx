@@ -1,5 +1,4 @@
 import React from 'react';
-import { motion } from 'framer-motion';
 
 const steps = [
     {
@@ -35,16 +34,13 @@ const Process: React.FC = () => {
                     gap: '2rem'
                 }}>
                     {steps.map((step, idx) => (
-                        <motion.div
+                        <div
                             key={idx}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true }}
-                            transition={{ delay: idx * 0.2 }}
                             style={{
                                 position: 'relative',
                                 paddingLeft: '1.5rem',
-                                borderLeft: '1px solid var(--color-border)'
+                                borderLeft: '1px solid var(--color-border)',
+                                animation: `slide-up-fade 0.6s ease-out ${idx * 0.15}s both`
                             }}
                         >
                             <span style={{
@@ -68,7 +64,7 @@ const Process: React.FC = () => {
 
                             <h3 style={{ fontSize: '1.25rem', fontWeight: 600, marginBottom: '0.75rem' }}>{step.title}</h3>
                             <p style={{ color: 'var(--color-text-muted)', fontSize: '1rem', lineHeight: 1.6 }}>{step.desc}</p>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
             </div>

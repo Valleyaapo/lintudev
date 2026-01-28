@@ -1,7 +1,6 @@
 
 import { lazy, Suspense } from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
-import { AnimatePresence } from 'framer-motion';
+import { Routes, Route } from 'react-router-dom';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import { Analytics } from '@vercel/analytics/react';
 import Layout from './components/Layout';
@@ -12,31 +11,15 @@ const ProjectTemplate = lazy(() => import('./pages/ProjectTemplate'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function App() {
-  const location = useLocation();
-
   return (
     <Layout>
-      <AnimatePresence mode="wait">
-        <Routes location={location} key={location.pathname}>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="text-text-muted">Loading...</div></div>}>
+        <Routes>
           <Route path="/" element={<Home />} />
-          <Route 
-            path="/project/:id" 
-            element={
-              <Suspense fallback={<div className="min-h-screen" />}>
-                <ProjectTemplate />
-              </Suspense>
-            } 
-          />
-          <Route 
-            path="*" 
-            element={
-              <Suspense fallback={<div className="min-h-screen" />}>
-                <NotFound />
-              </Suspense>
-            } 
-          />
+          <Route path="/project/:id" element={<ProjectTemplate />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
-      </AnimatePresence>
+      </Suspense>
       <Analytics />
       <SpeedInsights />
     </Layout>
