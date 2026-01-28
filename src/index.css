@@ -20,6 +20,15 @@
   }
 }
 
+/* Disable animations on mobile for performance */
+@media (max-width: 768px) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @keyframes pulse-glow {
   0%, 100% {
     opacity: 0.05;

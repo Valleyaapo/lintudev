@@ -6,8 +6,8 @@ const Hero: React.FC = () => {
             {/* Background Layers */}
             <div className="absolute inset-0 bg-bg z-0"></div>
             
-            {/* Abstract geometric pattern */}
-            <div className="absolute inset-0 z-0">
+            {/* Abstract geometric pattern - disabled on mobile */}
+            <div className="absolute inset-0 z-0 hidden md:block">
                 <div className="absolute top-0 right-0 w-[60vh] h-[60vh] bg-primary rounded-full blur-[150px] translate-x-1/3 -translate-y-1/4 opacity-20" style={{ animation: 'float-slow 20s ease-in-out infinite', willChange: 'transform' }}></div>
                 <div className="absolute bottom-0 left-0 w-[50vh] h-[50vh] bg-accent rounded-full blur-[120px] -translate-x-1/4 translate-y-1/3 opacity-15" style={{ animation: 'float-slower 25s ease-in-out infinite, pulse-glow 6s ease-in-out infinite', willChange: 'transform' }}></div>
             </div>
