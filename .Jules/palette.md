@@ -1,0 +1,1 @@
+## 2025-05-20 - Unassociated Form Labels **Learning:** Found input fields nested in divs without label association, relying only on visual proximity. This breaks screen reader navigation. **Action:** Always check form inputs for 'id' and matching 'label htmlFor' attributes, even if they look visually labeled.
