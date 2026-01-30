@@ -14,12 +14,19 @@ const Contact: React.FC = () => {
         setStatus('submitting');
 
         try {
+            const payload = {
+                name: formData.name,
+                email: formData.email,
+                message: formData.message,
+                ...(formData.website && { website: formData.website })
+            };
+
             const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify(payload),
             });
 
             if (response.ok) {

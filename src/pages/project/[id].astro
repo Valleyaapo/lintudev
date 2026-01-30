@@ -12,6 +12,7 @@ export function getStaticPaths() {
 
 const { project, nextProject } = Astro.props;
 
+const site = Astro.site || 'https://lintu.dev';
 const keywords = [
   project.category,
   ...project.stack.split(', '),
@@ -40,7 +41,7 @@ const keywords = [
       "@type": "Article",
       "headline": project.title,
       "description": project.description,
-      "image": new URL(project.heroImage, Astro.site).toString(),
+      "image": new URL(project.heroImage, site).toString(),
       "datePublished": `${project.year}-01-01`,
       "author": {
         "@type": "Organization",
@@ -51,7 +52,7 @@ const keywords = [
         "name": "Lintu Dev Studio",
         "logo": {
           "@type": "ImageObject",
-          "url": new URL('/icon.svg', Astro.site).toString()
+          "url": new URL('/icon.svg', site).toString()
         }
       },
       "keywords": keywords
