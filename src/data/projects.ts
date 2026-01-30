@@ -11,6 +11,10 @@ export interface Project {
   challenge: string;
   solution: string;
   features: string[];
+  links?: Array<{
+    label: string;
+    url: string;
+  }>;
 }
 
 export const projects: Project[] = [
@@ -32,6 +36,16 @@ export const projects: Project[] = [
       "Support for HSL (Helsinki) regions",
       "Minimalist, battery-efficient design",
       "Native iOS performance with SwiftUI"
+    ],
+    links: [
+      {
+        label: "Visit app",
+        url: "https://linjalla.app"
+      },
+      {
+        label: "App Store",
+        url: "https://apps.apple.com/fi/app/linjalla/id6757194796"
+      }
     ]
   },
   {
@@ -53,6 +67,12 @@ export const projects: Project[] = [
       "Interactive map of local nightlife spots",
       "Privacy-focused anonymous data handling, all check-in data deleted each morning",
       "easy sign-up with social accounts"
+    ],
+    links: [
+      {
+        label: "Visit site",
+        url: "https://jatkopaikka.com"
+      }
     ]
   }
 ];

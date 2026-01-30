@@ -8,5 +8,6 @@ import vercel from '@astrojs/vercel';
 export default defineConfig({
   adapter: vercel(),
   integrations: [react(), tailwind()],
-  output: 'static'
+  output: 'static',
+  site: 'https://lintu.dev'
 });

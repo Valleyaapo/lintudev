@@ -11,8 +11,52 @@ export function getStaticPaths() {
 }
 
 const { project, nextProject } = Astro.props;
+
+const keywords = [
+  project.category,
+  ...project.stack.split(', '),
+  project.service,
+  'case study',
+  'portfolio',
+  'development',
+  project.client !== 'Self-Published' && project.client !== 'Personal Project' ? project.client : null
+].filter(Boolean).join(', ');
 ---
 
-<Layout title={project.title}>
+<Layout 
+  title={project.title}
+  description={project.description}
+  image={project.heroImage}
+  type="article"
+>
+  <Fragment slot="head">
+    <meta name="keywords" content={keywords} />
+    <meta property="article:published_time" content={`${project.year}-01-01`} />
+    <meta property="article:author" content="Lintu Dev Studio" />
+    <meta property="article:tag" content={project.category} />
+    <meta property="article:tag" content={project.stack.split(', ').join(',')} />
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": project.title,
+      "description": project.description,
+      "image": new URL(project.heroImage, Astro.site).toString(),
+      "datePublished": `${project.year}-01-01`,
+      "author": {
+        "@type": "Organization",
+        "name": "Lintu Dev Studio"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Lintu Dev Studio",
+        "logo": {
+          "@type": "ImageObject",
+          "url": new URL('/icon.svg', Astro.site).toString()
+        }
+      },
+      "keywords": keywords
+    })} />
+  </Fragment>
+  
   <ProjectTemplate project={project} nextProject={nextProject} />
 </Layout>

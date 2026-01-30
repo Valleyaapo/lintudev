@@ -33,6 +33,46 @@ const { project, nextProject } = Astro.props as Props;
         <span class="block font-semibold">{project.service}</span>
       </div>
     </div>
+
+    {project.links && project.links.length > 0 && (
+      <div class="flex flex-wrap gap-3 mt-8">
+        {project.links.map((link) => {
+          const isAppStore = link.url.includes('apps.apple.com');
+          
+          if (isAppStore) {
+            return (
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="inline-block transition-opacity hover:opacity-80"
+              >
+                <img 
+                  src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1280620800" 
+                  alt="Download on the App Store"
+                  class="h-10"
+                  loading="lazy"
+                />
+              </a>
+            );
+          }
+          
+          return (
+            <a
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-border rounded-lg font-medium text-sm text-text-main transition-all hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/10"
+            >
+              {link.label}
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+              </svg>
+            </a>
+          );
+        })}
+      </div>
+    )}
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
