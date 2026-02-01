@@ -101,10 +101,12 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor="contact-name" className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id="contact-name"
                             required
                             type="text"
+                            autoComplete="name"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
@@ -112,10 +114,12 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor="contact-email" className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id="contact-email"
                             required
                             type="email"
+                            autoComplete="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
@@ -123,8 +127,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor="contact-message" className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id="contact-message"
                             required
                             rows={4}
                             value={formData.message}
@@ -136,9 +141,12 @@ const Contact: React.FC = () => {
 
                     <button
                         type="submit"
-                        className="btn-primary justify-self-start disabled:opacity-70"
+                        className="btn-primary justify-self-start disabled:opacity-70 flex items-center gap-2"
                         disabled={status === 'submitting'}
                     >
+                        {status === 'submitting' && (
+                            <span className="animate-spin h-4 w-4 border-2 border-current border-t-transparent rounded-full" />
+                        )}
                         {status === 'submitting' ? 'Sending...' : 'Send Message'}
                     </button>
                 </form>
