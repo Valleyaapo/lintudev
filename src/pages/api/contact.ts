@@ -17,6 +17,15 @@ const json = (status: number, data: unknown) =>
     }
   });
 
+const escapeHtml = (unsafe: string) => {
+  return unsafe
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
 export async function POST({ request }: { request: Request }) {
   try {
     const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
@@ -74,13 +83,13 @@ export async function POST({ request }: { request: Request }) {
       body: JSON.stringify({
         from: 'Contact Form <contact@lintu.dev>',
         to: 'hello@lintu.dev',
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission from ${escapeHtml(name)}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
         `,
         reply_to: email
       })
@@ -88,13 +97,14 @@ export async function POST({ request }: { request: Request }) {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      console.error('Resend API error:', error);
+      return json(500, { error: 'Failed to send email' });
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    return json(500, { error: 'Internal server error' });
   }
 }
 
