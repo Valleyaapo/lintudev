@@ -1,3 +1,5 @@
+import { RateLimiter } from '../../utils/rateLimit';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -7,7 +9,10 @@ interface ContactFormData {
 
 export const prerender = false;
 
-const requestCounts: Record<string, number[]> = {};
+const limiter = new RateLimiter({
+  windowMs: 60000,
+  max: 5
+});
 
 const json = (status: number, data: unknown) =>
   new Response(JSON.stringify(data), {
@@ -20,20 +25,10 @@ const json = (status: number, data: unknown) =>
 export async function POST({ request }: { request: Request }) {
   try {
     const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
-    const key = `rate-limit:${ip}`;
 
-    const now = Date.now();
-    const windowMs = 60000;
-
-    requestCounts[key] = (requestCounts[key] || []).filter(
-      (timestamp) => now - timestamp < windowMs
-    );
-
-    if (requestCounts[key].length >= 5) {
+    if (!limiter.check(ip)) {
       return json(429, { error: 'Too many requests. Please try again later.' });
     }
-
-    requestCounts[key].push(now);
 
     let data: ContactFormData;
     try {
