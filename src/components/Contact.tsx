@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 const Contact: React.FC = () => {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -8,6 +8,10 @@ const Contact: React.FC = () => {
         message: '',
         website: '' // honeypot field
     });
+
+    const nameId = useId();
+    const emailId = useId();
+    const messageId = useId();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -43,7 +47,7 @@ const Contact: React.FC = () => {
 
     if (status === 'success') {
         return (
-            <section id="contact" className="section container pb-32 cv-auto">
+            <section id="contact" className="section container pb-32 cv-auto" aria-live="polite">
                 <div className="tech-card p-16 text-center border-primary">
                     <h3 className="text-3xl mb-4">Message Received</h3>
                     <p className="text-text-muted">We'll be in touch shortly to discuss your project.</p>
@@ -60,7 +64,7 @@ const Contact: React.FC = () => {
 
     if (status === 'error') {
         return (
-            <section id="contact" className="section container pb-32 cv-auto">
+            <section id="contact" className="section container pb-32 cv-auto" aria-live="polite">
                 <div className="tech-card p-16 text-center border-red-500">
                     <h3 className="text-3xl mb-4">Something Went Wrong</h3>
                     <p className="text-text-muted">Please try again or email us directly at hello@lintu.dev</p>
@@ -89,7 +93,7 @@ const Contact: React.FC = () => {
                     </div>
                 </div>
 
-                <form onSubmit={handleSubmit} className="grid gap-6">
+                <form onSubmit={handleSubmit} className="grid gap-6" aria-busy={status === 'submitting'}>
                     {/* Honeypot field - invisible spam trap */}
                     <input
                         type="text"
@@ -101,8 +105,9 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor={nameId} className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id={nameId}
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +117,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor={emailId} className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id={emailId}
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +129,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor={messageId} className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id={messageId}
                             required
                             rows={4}
                             value={formData.message}
