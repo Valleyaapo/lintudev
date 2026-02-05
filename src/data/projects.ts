@@ -1,3 +1,11 @@
+import type { ImageMetadata } from 'astro';
+import linjallaHero from '../assets/linjalla-hero.jpg';
+import linjalla1 from '../assets/linjalla-1.jpg';
+import linjalla2 from '../assets/linjalla-2.jpg';
+import jatkopaikkaHero from '../assets/jatkopaikka-hero.jpg';
+import jatkopaikka1 from '../assets/jatkopaikka-1.jpg';
+import jatkopaikka2 from '../assets/jatkopaikka-2.jpg';
+
 export interface Project {
   id: string;
   title: string;
@@ -7,7 +15,8 @@ export interface Project {
   service: string;
   stack: string;
   description: string;
-  heroImage: string;
+  heroImage: ImageMetadata;
+  gallery: ImageMetadata[];
   challenge: string;
   solution: string;
   features: string[];
@@ -27,7 +36,8 @@ export const projects: Project[] = [
     service: "Mobile App Development",
     stack: "Swift, SwiftUI, MapKit, CoreLocation, GTFS API",
     description: "Real-time public transit navigation app for Finnish cities with live tracking and route optimization. Linjalla helps commuters visualize bus and tram movements in real-time.",
-    heroImage: "/assets/linjalla-hero.jpg", 
+    heroImage: linjallaHero,
+    gallery: [linjalla1, linjalla2],
     challenge: "Commuters in Finnish cities needed a more visual, immediate way to see public transport locations than traditional timetable apps provided. The challenge was to handle real-time high-frequency data updates from public transit APIs Digitransit without draining battery or cluttering the UI, while maintaining smooth map interactions.",
     solution: "A native iOS application built with SwiftUI for high performance and responsiveness. The app consumes GTFS Realtime feeds to render vehicle positions on a MapKit interface. Smart data polling and local caching strategies ensure the app remains responsive even with spotty network connections. The design focuses on high contrast and quick interactions for on-the-go usage.",
     features: [
@@ -57,7 +67,8 @@ export const projects: Project[] = [
     service: "Full Stack Development",
     stack: "React, Node.js, Vercel, WebSocket, PostgreSQL",
     description: "Social check-in service connecting users with local venues, events, and community recommendations. Jatkopaikka provides real-time insights into nightlife activity.",
-    heroImage: "/assets/jatkopaikka-hero.jpg",
+    heroImage: jatkopaikkaHero,
+    gallery: [jatkopaikka1, jatkopaikka2],
     challenge: "Nightlife goers often struggle to know which venues are lively right now and where friends are tonight without long debates. Existing review sites offer static data, but lack real-time 'vibe' indicators. The technical challenge was to aggregate and serve live crowd density data and user check-ins instantly to thousands of concurrent users during peak weekend hours.",
     solution: "A real-time social platform that aggregates user check-ins and anonymous density data to show a 'heat map' of nightlife activity. Built on a serverless architecture to scale automatically during Friday and Saturday nights. Uses WebSockets to push live updates to the client so users always see the current state of venues.",
     features: [
