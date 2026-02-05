@@ -1,0 +1,3 @@
+## 2025-02-18 - [Dynamic Image Optimization in Astro]
+**Learning:** When moving images from `public/` to `src/assets/` for optimization, dynamic paths (e.g., from a CMS or JSON file) break standard `import` statements. `import.meta.glob` is the specific solution to dynamically resolve these assets at build time. Additionally, `getImage` is required to generate valid public URLs for SEO/LD+JSON tags since the original file paths no longer exist in the built output.
+**Action:** Use `import.meta.glob` with `{ eager: true }` for dynamic image lookups and `getImage` for non-component URL generation.

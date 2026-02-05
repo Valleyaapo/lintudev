@@ -1,12 +1,18 @@
 ---
 import type { Project } from '../data/projects';
+import { Image } from 'astro:assets';
 
 interface Props {
   project: Project;
   nextProject?: Project;
+  heroImageMetadata?: ImageMetadata;
 }
 
-const { project, nextProject } = Astro.props as Props;
+const { project, nextProject, heroImageMetadata } = Astro.props as Props;
+
+const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/*.{jpeg,jpg,png,gif}', { eager: true });
+const galleryImg1 = images[`/src/assets/${project.id}-1.jpg`]?.default;
+const galleryImg2 = images[`/src/assets/${project.id}-2.jpg`]?.default;
 ---
 
 <div class="container section mt-24 slide-up-fade">
@@ -96,35 +102,69 @@ const { project, nextProject } = Astro.props as Props;
   </div>
 
   <div class="mb-20 cv-auto">
-    <img
-      src={project.heroImage}
-      alt={project.title}
-      class="w-full aspect-video object-cover rounded-lg border border-border"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-    />
+    {heroImageMetadata ? (
+      <Image
+        src={heroImageMetadata}
+        alt={project.title}
+        class="w-full aspect-video object-cover rounded-lg border border-border"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    ) : (
+      <img
+        src={project.heroImage}
+        alt={project.title}
+        class="w-full aspect-video object-cover rounded-lg border border-border"
+        loading="eager"
+        decoding="async"
+        fetchpriority="high"
+      />
+    )}
   </div>
 
   <div class="mb-20 pb-20 border-b border-border cv-auto">
     <h2 class="text-2xl font-bold mb-8">Project Gallery</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <img
-        src={`/assets/${project.id}-1.jpg`}
-        alt={`${project.title} 1`}
-        class="w-full aspect-square object-cover rounded-lg border border-border"
-        loading="lazy"
-        decoding="async"
-        fetchpriority="low"
-      />
-      <img
-        src={`/assets/${project.id}-2.jpg`}
-        alt={`${project.title} 2`}
-        class="w-full aspect-square object-cover rounded-lg border border-border"
-        loading="lazy"
-        decoding="async"
-        fetchpriority="low"
-      />
+      {galleryImg1 ? (
+        <Image
+          src={galleryImg1}
+          alt={`${project.title} 1`}
+          class="w-full aspect-square object-cover rounded-lg border border-border"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
+      ) : (
+        <img
+          src={`/assets/${project.id}-1.jpg`}
+          alt={`${project.title} 1`}
+          class="w-full aspect-square object-cover rounded-lg border border-border"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
+      )}
+
+      {galleryImg2 ? (
+        <Image
+          src={galleryImg2}
+          alt={`${project.title} 2`}
+          class="w-full aspect-square object-cover rounded-lg border border-border"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
+      ) : (
+        <img
+          src={`/assets/${project.id}-2.jpg`}
+          alt={`${project.title} 2`}
+          class="w-full aspect-square object-cover rounded-lg border border-border"
+          loading="lazy"
+          decoding="async"
+          fetchpriority="low"
+        />
+      )}
     </div>
   </div>
 
