@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 const Contact: React.FC = () => {
+    const id = useId();
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [formData, setFormData] = useState({
         name: '',
@@ -101,43 +102,47 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor={`${id}-name`} className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id={`${id}-name`}
                             required
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary transition-colors"
                             placeholder="Jane Doe"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor={`${id}-email`} className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id={`${id}-email`}
                             required
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary transition-colors"
                             placeholder="jane@company.com"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor={`${id}-message`} className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id={`${id}-message`}
                             required
                             rows={4}
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors resize-none"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus-visible:ring-2 focus-visible:ring-primary transition-colors resize-none"
                             placeholder="Tell us about the scope and timeline..."
                         />
                     </div>
 
                     <button
                         type="submit"
-                        className="btn-primary justify-self-start disabled:opacity-70"
+                        className="btn-primary justify-self-start disabled:opacity-70 disabled:cursor-not-allowed"
                         disabled={status === 'submitting'}
+                        aria-disabled={status === 'submitting'}
                     >
                         {status === 'submitting' ? 'Sending...' : 'Send Message'}
                     </button>
