@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 const Contact: React.FC = () => {
+    const nameId = useId();
+    const emailId = useId();
+    const messageId = useId();
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [formData, setFormData] = useState({
         name: '',
@@ -101,8 +104,9 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor={nameId} className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id={nameId}
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +116,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor={emailId} className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id={emailId}
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +128,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor={messageId} className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id={messageId}
                             required
                             rows={4}
                             value={formData.message}
