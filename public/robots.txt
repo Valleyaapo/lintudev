@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://lintu.dev/sitemap.xml
+Sitemap: https://www.lintu.dev/sitemap.xml

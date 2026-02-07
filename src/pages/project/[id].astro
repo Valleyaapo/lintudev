@@ -12,7 +12,7 @@ export function getStaticPaths() {
 
 const { project, nextProject } = Astro.props;
 
-const site = Astro.site || 'https://lintu.dev';
+const site = Astro.site || 'https://www.lintu.dev';
 const keywords = [
   project.category,
   ...project.stack.split(', '),

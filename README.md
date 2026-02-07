@@ -2,7 +2,7 @@
 
 Specialized development studio shipping high-performance web applications and mobile solutions.
 
-🌐 **Website**: [lintu.dev](https://lintu.dev)  
+🌐 **Website**: [www.lintu.dev](https://www.lintu.dev)  
 📧 **Contact**: hello@lintu.dev  
 𝕏 **Twitter**: [@lintudev](https://x.com/lintudev)
 

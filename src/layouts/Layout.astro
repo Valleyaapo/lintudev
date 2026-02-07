@@ -15,7 +15,7 @@ const {
   type = 'website'
 } = Astro.props;
 
-const site = Astro.site || 'https://lintu.dev';
+const site = Astro.site || 'https://www.lintu.dev';
 const canonicalURL = new URL(Astro.url.pathname, site);
 const fullTitle = title === 'Lintu Dev Studio' ? title : `${title} | Lintu Dev Studio`;
 const imageURL = new URL(image, site);
