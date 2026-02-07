@@ -101,35 +101,41 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor="name" className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id="name"
                             required
+                            aria-required="true"
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                             placeholder="Jane Doe"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor="email" className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id="email"
                             required
+                            aria-required="true"
                             type="email"
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors"
                             placeholder="jane@company.com"
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor="message" className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id="message"
                             required
+                            aria-required="true"
                             rows={4}
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary transition-colors resize-none"
+                            className="w-full bg-surface border border-border p-4 text-text-main font-inherit focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-colors resize-none"
                             placeholder="Tell us about the scope and timeline..."
                         />
                     </div>
