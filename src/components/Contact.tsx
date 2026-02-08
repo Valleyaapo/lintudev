@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 const Contact: React.FC = () => {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -8,6 +8,10 @@ const Contact: React.FC = () => {
         message: '',
         website: '' // honeypot field
     });
+
+    const nameId = useId();
+    const emailId = useId();
+    const messageId = useId();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -101,8 +105,9 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor={nameId} className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id={nameId}
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +117,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor={emailId} className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id={emailId}
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +129,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor={messageId} className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id={messageId}
                             required
                             rows={4}
                             value={formData.message}
@@ -136,9 +143,16 @@ const Contact: React.FC = () => {
 
                     <button
                         type="submit"
-                        className="btn-primary justify-self-start disabled:opacity-70"
+                        className="btn-primary justify-self-start disabled:opacity-70 flex items-center gap-2"
                         disabled={status === 'submitting'}
+                        aria-busy={status === 'submitting'}
                     >
+                        {status === 'submitting' && (
+                            <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        )}
                         {status === 'submitting' ? 'Sending...' : 'Send Message'}
                     </button>
                 </form>
