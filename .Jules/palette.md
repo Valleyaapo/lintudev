@@ -1,0 +1,1 @@
+## 2026-02-08 - Accessible Form Patterns\n**Learning:** React form inputs in this codebase may lack unique ID associations for labels, hindering screen reader navigation.\n**Action:** Automatically implement `useId` hook for all new or refactored form inputs to ensure robust label-input association.
