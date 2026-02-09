@@ -1,4 +1,5 @@
 ---
+import { getImage } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import ProjectTemplate from '../../components/ProjectTemplate.astro';
 import { projects, getNextProject } from '../../data/projects';
@@ -11,6 +12,9 @@ export function getStaticPaths() {
 }
 
 const { project, nextProject } = Astro.props;
+
+const optimizedHero = await getImage({ src: project.heroImage, format: 'jpg', width: 1200 });
+const heroImageUrl = optimizedHero.src;
 
 const site = Astro.site || 'https://www.lintu.dev';
 const keywords = [
@@ -27,7 +31,7 @@ const keywords = [
 <Layout 
   title={project.title}
   description={project.description}
-  image={project.heroImage}
+  image={heroImageUrl}
   type="article"
 >
   <Fragment slot="head">
@@ -41,7 +45,7 @@ const keywords = [
       "@type": "Article",
       "headline": project.title,
       "description": project.description,
-      "image": new URL(project.heroImage, site).toString(),
+      "image": new URL(heroImageUrl, site).toString(),
       "datePublished": `${project.year}-01-01`,
       "author": {
         "@type": "Organization",
