@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -65,6 +67,10 @@ export async function POST({ request }: { request: Request }) {
       return json(200, { success: true, dev: true });
     }
 
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -74,13 +80,13 @@ export async function POST({ request }: { request: Request }) {
       body: JSON.stringify({
         from: 'Contact Form <contact@lintu.dev>',
         to: 'hello@lintu.dev',
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission from ${safeName}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${safeMessage}</p>
         `,
         reply_to: email
       })
