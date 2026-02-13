@@ -1,0 +1,1 @@
+## 2026-02-13 - Form Accessibility Pattern\n**Learning:** Found critical accessibility gap in form components where labels were not programmatically associated with inputs using `htmlFor`/`id`.\n**Action:** When working on forms in this codebase, always verify and implement `useId` for generating unique, accessible ID associations.
