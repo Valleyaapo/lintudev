@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useId } from 'react';
 
 const Contact: React.FC = () => {
+    const id = useId();
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
     const [formData, setFormData] = useState({
         name: '',
@@ -101,8 +102,9 @@ const Contact: React.FC = () => {
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor={`${id}-name`} className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id={`${id}-name`}
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +114,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor={`${id}-email`} className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id={`${id}-email`}
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +126,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor={`${id}-message`} className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id={`${id}-message`}
                             required
                             rows={4}
                             value={formData.message}
@@ -136,9 +140,16 @@ const Contact: React.FC = () => {
 
                     <button
                         type="submit"
-                        className="btn-primary justify-self-start disabled:opacity-70"
+                        className="btn-primary justify-self-start disabled:opacity-70 flex items-center gap-2"
                         disabled={status === 'submitting'}
+                        aria-busy={status === 'submitting'}
                     >
+                        {status === 'submitting' && (
+                            <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        )}
                         {status === 'submitting' ? 'Sending...' : 'Send Message'}
                     </button>
                 </form>
