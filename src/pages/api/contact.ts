@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -65,6 +67,11 @@ export async function POST({ request }: { request: Request }) {
       return json(200, { success: true, dev: true });
     }
 
+    // Sanitize inputs to prevent XSS in email body
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message);
+
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -77,10 +84,10 @@ export async function POST({ request }: { request: Request }) {
         subject: `New Contact Form Submission from ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${safeMessage.replace(/\n/g, '<br>')}</p>
         `,
         reply_to: email
       })
@@ -88,13 +95,14 @@ export async function POST({ request }: { request: Request }) {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      console.error('Resend API error:', error);
+      return json(500, { error: 'Failed to send email' });
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    return json(500, { error: 'Internal server error' });
   }
 }
 
