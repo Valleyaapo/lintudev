@@ -14,8 +14,10 @@ const totalProjects = projects.length.toString().padStart(2, '0');
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
     {projects.map((project) => (
+      /* Prefetch for instant navigation */
       <a
         href={`/project/${project.id}`}
+        data-astro-prefetch
         class="tech-card h-[320px] p-8 flex flex-col justify-between relative"
       >
         <div class="flex justify-between mb-auto">
