@@ -52,7 +52,8 @@ const imageURL = new URL(image, site);
     <div class="min-h-screen flex flex-col">
       <header class="fixed top-0 left-0 right-0 z-50 py-4 bg-bg border-b border-border">
         <div class="container flex justify-between items-center">
-          <a href="/" class="font-bold text-xl tracking-tighter flex items-center gap-2 z-50 hover:text-primary transition-colors">
+          {/* Prefetch for instant navigation */}
+          <a href="/" data-astro-prefetch class="font-bold text-xl tracking-tighter flex items-center gap-2 z-50 hover:text-primary transition-colors">
             LINTU <span class="text-primary">//</span> DEV
           </a>
 
