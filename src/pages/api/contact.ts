@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -52,16 +54,29 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
+    if (name.length > 100) {
+      return json(400, { error: 'Name is too long (max 100 chars)' });
+    }
+
+    if (message.length > 5000) {
+      return json(400, { error: 'Message is too long (max 5000 chars)' });
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
 
+    // Sanitize inputs
+    const safeName = escapeHtml(name);
+    const safeEmail = escapeHtml(email);
+    const safeMessage = escapeHtml(message).replace(/\n/g, '<br>');
+
     const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
     
     // In development, if no API key is set, just log and return success
     if (!RESEND_API_KEY) {
-      console.log('Development mode - Contact form submission:', { name, email, message });
+      console.log('Development mode - Contact form submission:', { name: safeName, email: safeEmail, message: safeMessage });
       return json(200, { success: true, dev: true });
     }
 
@@ -74,27 +89,28 @@ export async function POST({ request }: { request: Request }) {
       body: JSON.stringify({
         from: 'Contact Form <contact@lintu.dev>',
         to: 'hello@lintu.dev',
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission from ${name}`, // Subject is plain text, so raw name is fine/better
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${safeName}</p>
+          <p><strong>Email:</strong> ${safeEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${safeMessage}</p>
         `,
-        reply_to: email
+        reply_to: email // reply_to needs raw email
       })
     });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      console.error('Resend API error:', error);
+      return json(500, { error: 'Failed to send email' });
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    return json(500, { error: 'Internal server error' });
   }
 }
 
