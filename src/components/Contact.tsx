@@ -96,13 +96,15 @@ const Contact: React.FC = () => {
                         name="website"
                         style={{ display: 'none' }}
                         tabIndex={-1}
+                        aria-hidden="true"
                         autoComplete="off"
                         value={formData.website || ''}
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor="name" className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id="name"
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +114,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor="email" className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id="email"
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +126,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor="message" className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id="message"
                             required
                             rows={4}
                             value={formData.message}
@@ -138,6 +142,7 @@ const Contact: React.FC = () => {
                         type="submit"
                         className="btn-primary justify-self-start disabled:opacity-70"
                         disabled={status === 'submitting'}
+                        aria-busy={status === 'submitting'}
                     >
                         {status === 'submitting' ? 'Sending...' : 'Send Message'}
                     </button>
