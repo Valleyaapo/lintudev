@@ -96,13 +96,13 @@ const { project, nextProject } = Astro.props as Props;
   </div>
 
   <div class="mb-20 cv-auto">
+    <!-- Hero image is below the fold, so we lazy load it to prioritize critical resources -->
     <img
       src={project.heroImage}
       alt={project.title}
       class="w-full aspect-video object-cover rounded-lg border border-border"
-      loading="eager"
+      loading="lazy"
       decoding="async"
-      fetchpriority="high"
     />
   </div>
 
