@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -65,6 +67,10 @@ export async function POST({ request }: { request: Request }) {
       return json(200, { success: true, dev: true });
     }
 
+    const sanitizedName = escapeHtml(name);
+    const sanitizedEmail = escapeHtml(email);
+    const sanitizedMessage = escapeHtml(message);
+
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
@@ -77,10 +83,10 @@ export async function POST({ request }: { request: Request }) {
         subject: `New Contact Form Submission from ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${sanitizedName}</p>
+          <p><strong>Email:</strong> ${sanitizedEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
         `,
         reply_to: email
       })
