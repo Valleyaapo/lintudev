@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Contact: React.FC = () => {
     const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
@@ -8,6 +8,14 @@ const Contact: React.FC = () => {
         message: '',
         website: '' // honeypot field
     });
+
+    const feedbackRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (status === 'success' || status === 'error') {
+            feedbackRef.current?.focus();
+        }
+    }, [status]);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -44,7 +52,11 @@ const Contact: React.FC = () => {
     if (status === 'success') {
         return (
             <section id="contact" className="section container pb-32 cv-auto">
-                <div className="tech-card p-16 text-center border-primary">
+                <div
+                    ref={feedbackRef}
+                    tabIndex={-1}
+                    className="tech-card p-16 text-center border-primary focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-bg"
+                >
                     <h3 className="text-3xl mb-4">Message Received</h3>
                     <p className="text-text-muted">We'll be in touch shortly to discuss your project.</p>
                     <button
@@ -61,7 +73,11 @@ const Contact: React.FC = () => {
     if (status === 'error') {
         return (
             <section id="contact" className="section container pb-32 cv-auto">
-                <div className="tech-card p-16 text-center border-red-500">
+                <div
+                    ref={feedbackRef}
+                    tabIndex={-1}
+                    className="tech-card p-16 text-center border-red-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-bg"
+                >
                     <h3 className="text-3xl mb-4">Something Went Wrong</h3>
                     <p className="text-text-muted">Please try again or email us directly at hello@lintu.dev</p>
                     <button
@@ -96,13 +112,15 @@ const Contact: React.FC = () => {
                         name="website"
                         style={{ display: 'none' }}
                         tabIndex={-1}
+                        aria-hidden="true"
                         autoComplete="off"
                         value={formData.website || ''}
                         onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     />
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">NAME</label>
+                        <label htmlFor="name" className="block text-sm text-text-muted mb-2">NAME</label>
                         <input
+                            id="name"
                             required
                             type="text"
                             value={formData.name}
@@ -112,8 +130,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">EMAIL</label>
+                        <label htmlFor="email" className="block text-sm text-text-muted mb-2">EMAIL</label>
                         <input
+                            id="email"
                             required
                             type="email"
                             value={formData.email}
@@ -123,8 +142,9 @@ const Contact: React.FC = () => {
                         />
                     </div>
                     <div>
-                        <label className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
+                        <label htmlFor="message" className="block text-sm text-text-muted mb-2">PROJECT DETAILS</label>
                         <textarea
+                            id="message"
                             required
                             rows={4}
                             value={formData.message}
@@ -136,10 +156,19 @@ const Contact: React.FC = () => {
 
                     <button
                         type="submit"
-                        className="btn-primary justify-self-start disabled:opacity-70"
+                        className="btn-primary justify-self-start disabled:opacity-70 flex items-center gap-2"
                         disabled={status === 'submitting'}
+                        aria-busy={status === 'submitting'}
                     >
-                        {status === 'submitting' ? 'Sending...' : 'Send Message'}
+                        {status === 'submitting' ? (
+                            <>
+                                <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span>Sending...</span>
+                            </>
+                        ) : 'Send Message'}
                     </button>
                 </form>
             </div>
