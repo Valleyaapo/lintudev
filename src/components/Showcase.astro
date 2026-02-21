@@ -17,6 +17,8 @@ const totalProjects = projects.length.toString().padStart(2, '0');
       <a
         href={`/project/${project.id}`}
         class="tech-card h-[320px] p-8 flex flex-col justify-between relative"
+        /* Prefetch the project page on hover for instant navigation */
+        data-astro-prefetch
       >
         <div class="flex justify-between mb-auto">
           <span class="font-mono text-primary text-xs border border-border px-2 py-1 rounded">
