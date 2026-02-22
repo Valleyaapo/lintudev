@@ -9,5 +9,7 @@ export default defineConfig({
   adapter: vercel(),
   integrations: [react(), tailwind()],
   output: 'static',
-  site: 'https://www.lintu.dev'
+  site: 'https://www.lintu.dev',
+  // Enable prefetching to preload pages for faster navigation
+  prefetch: true
 });
