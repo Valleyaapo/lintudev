@@ -2,6 +2,7 @@
 import Layout from '../../layouts/Layout.astro';
 import ProjectTemplate from '../../components/ProjectTemplate.astro';
 import { projects, getNextProject } from '../../data/projects';
+import { getImage } from 'astro:assets';
 
 export function getStaticPaths() {
   return projects.map((project) => ({
@@ -22,12 +23,15 @@ const keywords = [
   'development',
   project.client !== 'Self-Published' && project.client !== 'Personal Project' ? project.client : null
 ].filter(Boolean).join(', ');
+
+const optimizedHeroImage = await getImage({src: project.heroImage, format: 'webp'});
+const ogImage = optimizedHeroImage.src;
 ---
 
 <Layout 
   title={project.title}
   description={project.description}
-  image={project.heroImage}
+  image={ogImage}
   type="article"
 >
   <Fragment slot="head">
@@ -41,7 +45,7 @@ const keywords = [
       "@type": "Article",
       "headline": project.title,
       "description": project.description,
-      "image": new URL(project.heroImage, site).toString(),
+      "image": new URL(ogImage, site).toString(),
       "datePublished": `${project.year}-01-01`,
       "author": {
         "@type": "Organization",
