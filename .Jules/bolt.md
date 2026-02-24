@@ -1,0 +1,3 @@
+## 2025-01-28 - Image Optimization Strategy
+**Learning:** Using Astro's `<Image />` component with imported assets significantly reduces image file sizes (e.g., from 428kB to 48kB) by automatically serving WebP and resizing. However, this requires moving assets from `public/` to `src/assets/` and updating data structures to use imports instead of string paths.
+**Action:** When working with image-heavy components in Astro, always verify if `astro:assets` can be leveraged. Ensure data files import images directly to pass `ImageMetadata` objects to components, and verify that all consumers of that data (like `Layout` or listing pages) are updated to handle the object or extract the `.src` property.
