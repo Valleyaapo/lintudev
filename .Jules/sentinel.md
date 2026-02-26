@@ -1,0 +1,4 @@
+## 2025-02-15 - [XSS in Contact Form Email]
+**Vulnerability:** The contact form API (`src/pages/api/contact.ts`) was injecting user-provided input (`name`, `email`, `message`) directly into the HTML body of an email without sanitization. This could allow an attacker to inject malicious scripts (XSS) that would be executed when the email recipient views the message in an HTML-enabled email client.
+**Learning:** Even internal or backend-generated HTML (like emails) must be treated as untrusted if it includes user input. It's easy to overlook sanitization when not rendering directly to a browser response.
+**Prevention:** Always sanitize user input before interpolating it into any HTML context. I implemented a utility function `escapeHtml` to escape special characters and applied it to all user inputs before constructing the email body.
