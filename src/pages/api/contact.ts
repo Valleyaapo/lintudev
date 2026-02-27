@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -8,6 +10,7 @@ interface ContactFormData {
 export const prerender = false;
 
 const requestCounts: Record<string, number[]> = {};
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const json = (status: number, data: unknown) =>
   new Response(JSON.stringify(data), {
@@ -52,7 +55,14 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (name.length > 100) {
+      return json(400, { error: 'Name must be 100 characters or less' });
+    }
+
+    if (message.length > 5000) {
+      return json(400, { error: 'Message must be 5000 characters or less' });
+    }
+
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
@@ -77,24 +87,24 @@ export async function POST({ request }: { request: Request }) {
         subject: `New Contact Form Submission from ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
         `,
         reply_to: email
       })
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      await response.json().catch(() => ({}));
+      return json(500, { error: 'Failed to send email' }); // Removed sensitive details
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    return json(500, { error: 'Internal server error' }); // Removed sensitive details
   }
 }
 
