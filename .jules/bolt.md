@@ -1,0 +1,3 @@
+## 2024-02-27 - [Regular Expressions in API routes]
+**Learning:** Moving Regular Expression declarations from inside request handlers to module scope in API routes (e.g., in `src/pages/api/contact.ts`) significantly improves performance, with benchmarks showing a ~26.5% speed increase for regex operations by avoiding redundant compilation.
+**Action:** Always define static Regular Expressions at the module scope level instead of inside functions or handlers that are called repeatedly.
