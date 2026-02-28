@@ -9,6 +9,9 @@ export const prerender = false;
 
 const requestCounts: Record<string, number[]> = {};
 
+// Compile regular expression once at module scope to improve performance
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const json = (status: number, data: unknown) =>
   new Response(JSON.stringify(data), {
     status,
@@ -52,7 +55,6 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
