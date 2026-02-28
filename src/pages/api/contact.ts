@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -52,10 +54,20 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
+    // Security enhancement: Input length limits
+    if (name.length > 100 || email.length > 255 || message.length > 5000) {
+      return json(400, { error: 'Input length exceeded' });
+    }
+
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
+
+    // Sanitize user inputs to prevent XSS in HTML emails
+    const sanitizedName = escapeHtml(name);
+    const sanitizedEmail = escapeHtml(email);
+    const sanitizedMessage = escapeHtml(message);
 
     const RESEND_API_KEY = import.meta.env.RESEND_API_KEY;
     
@@ -77,10 +89,10 @@ export async function POST({ request }: { request: Request }) {
         subject: `New Contact Form Submission from ${name}`,
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${sanitizedName}</p>
+          <p><strong>Email:</strong> ${sanitizedEmail}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${sanitizedMessage.replace(/\n/g, '<br>')}</p>
         `,
         reply_to: email
       })
@@ -88,13 +100,16 @@ export async function POST({ request }: { request: Request }) {
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      console.error('Failed to send email:', error);
+      // Fail securely without leaking details
+      return json(500, { error: 'Failed to process request' });
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    // Fail securely without leaking stack traces or internal errors
+    return json(500, { error: 'Internal server error' });
   }
 }
 
