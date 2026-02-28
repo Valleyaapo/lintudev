@@ -1,0 +1,3 @@
+## 2024-05-17 - Form Label Association and Async Feedback
+**Learning:** Adding `id` attributes to inputs and `htmlFor` attributes to labels is essential for screen readers to properly associate the two, improving accessibility. Furthermore, providing immediate visual feedback and updating the ARIA state (`aria-busy`) during async operations (like form submission) makes the interface more intuitive and accessible. Using `flex items-center gap-2` ensures spinners correctly align next to button text.
+**Action:** Always verify form inputs have linked labels and submit buttons indicate loading state visually and structurally during async operations.
