@@ -1,0 +1,3 @@
+## 2025-03-01 - Module-level Regular Expressions in API Routes
+**Learning:** Moving regular expressions to module scope improves performance by avoiding repeated `RegExp` allocation and garbage collection overhead on every request. However, when doing so, it is crucial to avoid using the global (`g`) flag. A module-scoped regex with the `g` flag maintains internal state (like `lastIndex`) across multiple requests, leading to unpredictable matching behavior and subtle bugs.
+**Action:** Always verify that regular expressions moved to module scope for performance optimization do not use the `g` flag unless explicitly necessary and carefully managed per request.
