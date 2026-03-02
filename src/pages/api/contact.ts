@@ -1,3 +1,5 @@
+import { escapeHtml } from '../../utils/sanitize';
+
 interface ContactFormData {
   name: string;
   email: string;
@@ -74,27 +76,29 @@ export async function POST({ request }: { request: Request }) {
       body: JSON.stringify({
         from: 'Contact Form <contact@lintu.dev>',
         to: 'hello@lintu.dev',
-        subject: `New Contact Form Submission from ${name}`,
+        subject: `New Contact Form Submission from ${name}`, // Do not escape subject
         html: `
           <h2>New Contact Form Submission</h2>
-          <p><strong>Name:</strong> ${name}</p>
-          <p><strong>Email:</strong> ${email}</p>
+          <p><strong>Name:</strong> ${escapeHtml(name)}</p>
+          <p><strong>Email:</strong> ${escapeHtml(email)}</p>
           <p><strong>Message:</strong></p>
-          <p>${message.replace(/\n/g, '<br>')}</p>
+          <p>${escapeHtml(message).replace(/\n/g, '<br>')}</p>
         `,
-        reply_to: email
+        reply_to: email // Do not escape reply_to
       })
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({}));
-      return json(500, { error: 'Failed to send email', details: error });
+      await response.json().catch(() => ({}));
+      // Fail securely: do not leak error details
+      return json(500, { error: 'Failed to send email' });
     }
 
     return json(200, { success: true });
   } catch (error) {
     console.error('Contact form error:', error);
-    return json(500, { error: 'Internal server error', details: error instanceof Error ? error.message : String(error) });
+    // Fail securely: do not leak error details
+    return json(500, { error: 'Internal server error' });
   }
 }
 
