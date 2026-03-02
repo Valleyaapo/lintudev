@@ -9,6 +9,11 @@ export const prerender = false;
 
 const requestCounts: Record<string, number[]> = {};
 
+// Performance Optimization: Move Regular Expression to module scope
+// This avoids repeated RegExp object allocation and garbage collection overhead on every request.
+// Note: We do NOT use the global 'g' flag here, as that would maintain state (lastIndex) across requests and cause bugs.
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const json = (status: number, data: unknown) =>
   new Response(JSON.stringify(data), {
     status,
@@ -52,7 +57,6 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
