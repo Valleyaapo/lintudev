@@ -1,0 +1,3 @@
+## 2024-05-14 - Optimize regex allocation in API routes
+**Learning:** Moving Regular Expression declarations from inside request handlers (e.g., inside an Astro API route's `POST` function) to the module scope improves performance by avoiding repeated `RegExp` object allocation and garbage collection overhead on every API request. Even though modern engines cache the literal compilation, the object allocation still happens.
+**Action:** Move static Regular Expressions to the module scope (outside the request handler functions). However, ensure these regexes do NOT use the global (`g`) flag to avoid preserving internal state (such as `lastIndex`) across multiple concurrent requests, which could lead to difficult-to-track bugs.

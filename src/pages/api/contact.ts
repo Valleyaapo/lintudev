@@ -7,6 +7,10 @@ interface ContactFormData {
 
 export const prerender = false;
 
+// Move Regex to module scope to avoid reallocation and garbage collection overhead on every request
+// Note: Do not use the global ('g') flag here as it maintains state (lastIndex) across requests
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 const requestCounts: Record<string, number[]> = {};
 
 const json = (status: number, data: unknown) =>
@@ -52,7 +56,6 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
