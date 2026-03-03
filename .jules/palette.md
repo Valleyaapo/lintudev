@@ -1,0 +1,3 @@
+## 2024-03-03 - Improved Contact Form Accessibility
+**Learning:** Explicitly associating labels using `htmlFor` and `id` in complex form structures ensures screen readers announce input fields correctly, while adding `aria-hidden="true"` on honeypot fields prevents confusing assistive technology users with invisible spam traps. Furthermore, appending `aria-busy` and a visual loading indicator provides crucial feedback during asynchronous form submissions.
+**Action:** Always verify that input elements have explicit IDs paired with label `htmlFor` attributes, and ensure asynchronous buttons communicate state both visually (with a spinner) and semantically (with `aria-busy`).
