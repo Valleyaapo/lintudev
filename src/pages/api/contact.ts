@@ -17,6 +17,9 @@ const json = (status: number, data: unknown) =>
     }
   });
 
+// Optimization: Move Regex to module scope to prevent re-allocation and garbage collection overhead on every request
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function POST({ request }: { request: Request }) {
   try {
     const ip = request.headers.get('x-forwarded-for') ?? 'unknown';
@@ -52,7 +55,6 @@ export async function POST({ request }: { request: Request }) {
       return json(400, { error: 'All fields are required' });
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return json(400, { error: 'Invalid email address' });
     }
