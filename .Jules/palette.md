@@ -1,0 +1,3 @@
+## 2024-05-24 - Form Accessibility and Feedback
+**Learning:** Explicitly linking labels to inputs via `id` and `htmlFor` is crucial for screen readers. Additionally, providing visual feedback (like a loading spinner) and setting `aria-busy` on submit buttons significantly improves the UX during async operations.
+**Action:** Always ensure form fields have explicit `id` and `htmlFor` associations and async buttons provide visual and programmatic loading feedback.
