@@ -1,0 +1,4 @@
+## 2025-03-04 - Fix HTML injection in email template and secure error responses
+**Vulnerability:** Contact form API passed un-sanitized user inputs (`name`, `email`, `message`) into an HTML email template sent via Resend API. This allowed for HTML/XSS injection when viewed by the email client. Furthermore, the 500 error responses were returning the full internal error details, exposing potential backend logic details.
+**Learning:** Even though the input goes to an email service and not directly rendered on a website page, any system (like an email client) that renders HTML is vulnerable to XSS/HTML injection if variables are interpolated without escaping. `escapeHtml` must be applied to user-controlled values inside HTML templates.
+**Prevention:** Always sanitize user inputs passed into HTML strings, even for external service bodies (like Resend). Do not leak server or stack trace information back to the client via 5xx error responses.
