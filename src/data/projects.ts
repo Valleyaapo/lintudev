@@ -49,6 +49,37 @@ export const projects: Project[] = [
     ]
   },
   {
+    id: "atelier",
+    title: "Atelier",
+    category: "iOS Learning",
+    year: "2026",
+    client: "Self-Published",
+    service: "Mobile App Development",
+    stack: "Swift, SwiftUI, SwiftData, FSRS, AVFoundation",
+    description: "Spaced-repetition flashcards for art and languages. Atelier teaches painters and paintings by sight, and French or Swedish words by ear and by hand.",
+    heroImage: "/assets/atelier-hero.jpg",
+    challenge: "General flashcard apps treat every card as plain text, so a painting and a French noun get the same bare question and answer. Learning art needs the image to lead; learning a language needs sound, grammatical gender and eventually producing the word, not only recognising it. People also arrive with years of review history in other apps and don't want to start over.",
+    solution: "A native SwiftUI app with a different card face for each kind of deck: artworks fill the card, vocabulary shows gender tags, example sentences and spoken audio, and well-known words graduate to typed recall. A modern FSRS scheduler picks only what's about to be forgotten. Deck packages from other flashcard apps import with their images, audio and review history, so progress carries over. Everything stays on the device.",
+    features: [
+      "Artwork cards with a period filter, from the Renaissance onward",
+      "Spoken words, gender tags and example sentences",
+      "Recognise, Write and Mixed review modes per deck",
+      "FSRS spaced-repetition scheduling with daily limits",
+      "Imports .apkg and .colpkg decks with media and history",
+      "No account, no tracking; all data stays on the iPhone"
+    ],
+    links: [
+      {
+        label: "Support",
+        url: "/atelier/support"
+      },
+      {
+        label: "Privacy",
+        url: "/atelier/privacy"
+      }
+    ]
+  },
+  {
     id: "jatkopaikka",
     title: "Jatkopaikka",
     category: "Social Platform",

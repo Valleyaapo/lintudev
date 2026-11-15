@@ -1,0 +1,32 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Atelier Support" description="Help with Atelier, flashcards for art and languages on iPhone.">
+  <article class="container section mt-24 max-w-2xl space-y-6">
+    <header class="space-y-2">
+      <h1 class="text-4xl font-bold">Atelier Support</h1>
+      <p class="text-text-muted">Flashcards for art and languages, for iPhone</p>
+    </header>
+
+    <p>Need help or found a problem? Email <a class="text-primary hover:underline" href="mailto:hello@lintu.dev?subject=Atelier">hello@lintu.dev</a> with your iPhone model, iOS version and what happened.</p>
+
+    <h2 class="text-2xl font-bold pt-4">Importing your decks</h2>
+    <p>Atelier opens deck packages (<code>.apkg</code>) and collection packages (<code>.colpkg</code>) exported from other flashcard apps.</p>
+    <ol class="list-decimal pl-6 space-y-2">
+      <li>In the app you're moving from, export your deck or collection. Include scheduling information and media, and turn on the option for older app versions.</li>
+      <li>Get the file onto your iPhone with AirDrop, Mail or the Files app.</li>
+      <li>Tap the file and choose Atelier, or open Atelier, go to Decks and tap Import deck package.</li>
+    </ol>
+    <p>Importing the same package again adds only cards that aren't already in Atelier.</p>
+
+    <h2 class="text-2xl font-bold pt-4">“This deck package uses a newer format”</h2>
+    <p>Export again with the option for older app versions turned on. Atelier reads the widely supported legacy format.</p>
+
+    <h2 class="text-2xl font-bold pt-4">Review modes</h2>
+    <p>Language decks can be reviewed in three modes, chosen on the deck's page: Recognise (see the word, recall its meaning), Write (see the meaning, type the word) or Mixed, which adds typed cards once you know a word well.</p>
+
+    <h2 class="text-2xl font-bold pt-4">Your data</h2>
+    <p>Everything stays on your iPhone. See the <a class="text-primary hover:underline" href="/atelier/privacy">privacy policy</a>.</p>
+  </article>
+</Layout>
