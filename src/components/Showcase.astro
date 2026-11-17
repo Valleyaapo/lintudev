@@ -4,34 +4,55 @@ import { projects } from '../data/projects';
 const totalProjects = projects.length.toString().padStart(2, '0');
 ---
 
-<section id="work" class="section container cv-auto">
-  <div class="flex justify-between items-baseline mb-16 pb-4 border-b border-border">
-    <h2 class="text-2xl font-semibold">Selected Work</h2>
-    <span class="font-mono text-text-muted text-sm">
-      01 — {totalProjects}
-    </span>
+<section id="work" class="section container pt-20 md:pt-28 scroll-mt-20">
+  <div class="flex justify-between items-baseline mb-10 md:mb-14 pb-4 border-b border-border">
+    <h2 class="text-3xl md:text-4xl font-bold">Work</h2>
+    <span class="font-mono text-text-muted text-sm">01 — {totalProjects}</span>
   </div>
 
   <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-    {projects.map((project) => (
-      <a
-        href={`/project/${project.id}`}
-        class="tech-card h-[320px] p-8 flex flex-col justify-between relative"
-      >
-        <div class="flex justify-between mb-auto">
-          <span class="font-mono text-primary text-xs border border-border px-2 py-1 rounded">
-            {project.category}
-          </span>
-          <span class="text-text-muted text-sm">{project.year}</span>
-        </div>
+    {projects.map((project, idx) => {
+      const featured = idx === 0;
+      return (
+        <a
+          href={`/project/${project.id}`}
+          class:list={[
+            'group tech-card rounded-xl overflow-hidden flex flex-col',
+            featured && 'md:col-span-2 md:grid md:grid-cols-[1.35fr_1fr]',
+          ]}
+        >
+          <div class="relative overflow-hidden bg-surface aspect-video border-b border-border md:border-b-0">
+            <img
+              src={`/assets/${project.id}-card.webp`}
+              alt={`${project.title} screenshots`}
+              width="1200"
+              height="675"
+              loading={featured ? 'eager' : 'lazy'}
+              decoding="async"
+              class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
+            />
+          </div>
 
-        <div>
-          <h3 class="text-2xl font-bold mb-2">{project.title}</h3>
-          <p class="text-text-muted text-base leading-relaxed">{project.description}</p>
-        </div>
+          <div class:list={['p-6 md:p-8 flex flex-col gap-4 flex-1', featured && 'md:justify-center md:border-l md:border-border']}>
+            <div class="flex justify-between items-center">
+              <span class="font-mono text-primary text-xs border border-primary/30 bg-primary/5 px-2 py-1 rounded">
+                {project.category}
+              </span>
+              <span class="font-mono text-text-muted text-xs">{project.year}</span>
+            </div>
 
-        <div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-text-muted/50 rounded-br-sm"></div>
-      </a>
-    ))}
+            <div>
+              <h3 class:list={['font-bold mb-2', featured ? 'text-3xl md:text-4xl' : 'text-2xl']}>{project.title}</h3>
+              <p class="text-text-muted leading-relaxed">{project.description}</p>
+            </div>
+
+            <span class:list={['pt-2 inline-flex items-center gap-2 text-sm font-medium text-text-main group-hover:text-primary transition-colors', featured ? 'mt-auto md:mt-4' : 'mt-auto']}>
+              View case study
+              <span class="transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
+            </span>
+          </div>
+        </a>
+      );
+    })}
   </div>
 </section>

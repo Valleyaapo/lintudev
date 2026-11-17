@@ -1,40 +1,31 @@
 ---
-const steps = [
+// Proof, not process: concrete facts from the shipped products.
+const facts = [
   {
-    number: '01',
-    title: 'Discovery',
-    desc: 'We dive deep into your requirements and technical constraints to map out a solid architectural foundation.'
+    value: '3',
+    label: 'Products shipped',
+    detail: 'Two native iOS apps and a real-time web platform.',
   },
   {
-    number: '02',
-    title: 'Development',
-    desc: 'Iterative, component-driven implementation using modern standards and rigorous type safety.'
-  },
-  {
-    number: '03',
-    title: 'Deployment',
-    desc: 'Automated CI/CD pipelines ensuring seamless delivery, performance monitoring, and scalability.'
+    value: '6',
+    label: 'Transit regions',
+    detail: 'Linjalla covers HSL, Tampere, Turku, Oulu, Kuopio and Jyväskylä.',
   }
 ];
 ---
 
-<section class="section container cv-auto">
-  <div class="border-t border-border pt-8 mb-8">
-    <h2 class="text-2xl font-semibold mb-12">Workflow</h2>
+<section class="section container pt-20 md:pt-28">
+  <h2 class="text-3xl md:text-4xl font-bold mb-10 md:mb-12">Shipped</h2>
 
-    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-      {steps.map((step, idx) => (
-        <div
-          class="relative pl-6 border-l border-border"
-          style={`animation: slide-up-fade 0.6s ease-out ${idx * 0.15}s both;`}
-        >
-          <span class="absolute top-0 left-[-1px] h-10 w-px bg-primary"></span>
-
-          <span class="block font-mono text-primary mb-4 text-sm">{step.number}</span>
-          <h3 class="text-xl font-semibold mb-3">{step.title}</h3>
-          <p class="text-text-muted leading-relaxed">{step.desc}</p>
-        </div>
-      ))}
-    </div>
+  <div class="grid gap-px bg-border border border-border rounded-xl overflow-hidden sm:grid-cols-2">
+    {facts.map((fact) => (
+      <div class="bg-bg p-6 md:p-8">
+        <span class="block font-display text-6xl md:text-7xl font-extrabold text-primary leading-none mb-4 tracking-[-0.04em]">
+          {fact.value}
+        </span>
+        <span class="block font-semibold mb-2">{fact.label}</span>
+        <p class="text-text-muted text-sm leading-relaxed">{fact.detail}</p>
+      </div>
+    ))}
   </div>
 </section>

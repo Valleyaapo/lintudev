@@ -23,19 +23,18 @@ export const projects: Project[] = [
     title: "Linjalla",
     category: "iOS Navigation",
     year: "2026",
-    client: "Self-Published",
+    client: "Self-published",
     service: "Mobile App Development",
     stack: "Swift, SwiftUI, MapKit, CoreLocation, GTFS API",
-    description: "Real-time public transit navigation app for Finnish cities with live tracking and route optimization. Linjalla helps commuters visualize bus and tram movements in real-time.",
+    description: "Live bus and tram positions on a map, for six Finnish transit regions. Built natively for iPhone.",
     heroImage: "/assets/linjalla-hero.jpg", 
-    challenge: "Commuters in Finnish cities needed a more visual, immediate way to see public transport locations than traditional timetable apps provided. The challenge was to handle real-time high-frequency data updates from public transit APIs Digitransit without draining battery or cluttering the UI, while maintaining smooth map interactions.",
-    solution: "A native iOS application built with SwiftUI for high performance and responsiveness. The app consumes GTFS Realtime feeds to render vehicle positions on a MapKit interface. Smart data polling and local caching strategies ensure the app remains responsive even with spotty network connections. The design focuses on high contrast and quick interactions for on-the-go usage.",
+    challenge: "Timetable apps list departures; Linjalla shows where each bus and tram is on the map right now. The technical problem was handling high-frequency updates from Digitransit's real-time feeds without draining the battery, cluttering the screen or making the map stutter.",
+    solution: "A native SwiftUI app that reads GTFS Realtime feeds and draws vehicle positions on MapKit. It polls for updates and caches data locally, so the map keeps working on a patchy connection. The interface uses high contrast so it reads quickly on the move.",
     features: [
       "Real-time vehicle tracking on interactive map",
       "Live arrival estimates for stops",
-      "Support for HSL (Helsinki) regions",
-      "Minimalist, battery-efficient design",
-      "Native iOS performance with SwiftUI"
+      "Six Finnish regions: HSL, Tampere, Turku, Oulu, Kuopio, Jyväskylä",
+      "High-contrast interface for use on the move"
     ],
     links: [
       {
@@ -53,7 +52,7 @@ export const projects: Project[] = [
     title: "Atelier",
     category: "iOS Learning",
     year: "2026",
-    client: "Self-Published",
+    client: "Self-published",
     service: "Mobile App Development",
     stack: "Swift, SwiftUI, SwiftData, FSRS, AVFoundation",
     description: "Spaced-repetition flashcards for art and languages. Atelier teaches painters and paintings by sight, and French or Swedish words by ear and by hand.",
@@ -84,20 +83,19 @@ export const projects: Project[] = [
     title: "Jatkopaikka",
     category: "Social Platform",
     year: "2026",
-    client: "Personal Project",
+    client: "Self-published",
     service: "Full Stack Development",
-    stack: "React, Node.js, Vercel, WebSocket, PostgreSQL",
-    description: "Social check-in service connecting users with local venues, events, and community recommendations. Jatkopaikka provides real-time insights into nightlife activity.",
+    stack: "Next.js, React, Supabase, PostgreSQL, PostGIS, MapLibre, Vercel",
+    description: "A live map of which bars are busy right now, built from check-ins. A venue shows a count only once three verified people are in, and every check-in expires at 06:00.",
     heroImage: "/assets/jatkopaikka-hero.jpg",
-    challenge: "Nightlife goers often struggle to know which venues are lively right now and where friends are tonight without long debates. Existing review sites offer static data, but lack real-time 'vibe' indicators. The technical challenge was to aggregate and serve live crowd density data and user check-ins instantly to thousands of concurrent users during peak weekend hours.",
-    solution: "A real-time social platform that aggregates user check-ins and anonymous density data to show a 'heat map' of nightlife activity. Built on a serverless architecture to scale automatically during Friday and Saturday nights. Uses WebSockets to push live updates to the client so users always see the current state of venues.",
+    challenge: "On a night out it's hard to know which places are busy right now and where your friends are without a long debate. Review sites only show static information. The technical problem was serving live check-ins and crowd counts to everyone at once during the weekend peak.",
+    solution: "Check-ins feed a live map: venues show anonymous crowd counts, and friends see where each other are. The backend is serverless, so it scales up on Friday and Saturday nights, and WebSocket updates keep the map current without reloading.",
     features: [
-      "Real-time venue occupancy indicators when treshold met",
+      "Real-time crowd counts, shown only once three verified users are in",
       "Social check-ins and status sharing between friends",
-      "Scalable serverless backend",
       "Interactive map of local nightlife spots",
-      "Privacy-focused anonymous data handling, all check-in data deleted each morning",
-      "easy sign-up with social accounts"
+      "Live check-ins expire at 06:00; personal history is deleted after 30 days",
+      "Sign-up with social accounts"
     ],
     links: [
       {

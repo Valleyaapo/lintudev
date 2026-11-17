@@ -9,27 +9,28 @@ interface Props {
 const { project, nextProject } = Astro.props as Props;
 ---
 
-<div class="container section mt-24 slide-up-fade">
-  <div class="mb-16 pb-8 border-b border-border">
+<div class="container section pt-12 md:pt-20 slide-up-fade">
+  <div class="mb-10 md:mb-12">
+    <p class="eyebrow mb-4">{project.category} · {project.year}</p>
     <h1 class="text-4xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-none break-words">
       {project.title}
     </h1>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
       <div>
-        <span class="block text-text-muted text-sm mb-2">CLIENT</span>
+        <span class="block font-mono text-xs tracking-[0.2em] text-text-muted mb-2">CLIENT</span>
         <span class="block font-semibold">{project.client}</span>
       </div>
       <div>
-        <span class="block text-text-muted text-sm mb-2">CATEGORY</span>
+        <span class="block font-mono text-xs tracking-[0.2em] text-text-muted mb-2">CATEGORY</span>
         <span class="block font-semibold">{project.category}</span>
       </div>
       <div>
-        <span class="block text-text-muted text-sm mb-2">YEAR</span>
+        <span class="block font-mono text-xs tracking-[0.2em] text-text-muted mb-2">YEAR</span>
         <span class="block font-semibold">{project.year}</span>
       </div>
       <div>
-        <span class="block text-text-muted text-sm mb-2">ROLE</span>
+        <span class="block font-mono text-xs tracking-[0.2em] text-text-muted mb-2">ROLE</span>
         <span class="block font-semibold">{project.service}</span>
       </div>
     </div>
@@ -47,32 +48,52 @@ const { project, nextProject } = Astro.props as Props;
                 rel="noopener noreferrer"
                 class="inline-block transition-opacity hover:opacity-80"
               >
-                <img 
-                  src="https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&releaseDate=1280620800" 
+                <img
+                  src="/assets/app-store-badge.svg"
                   alt="Download on the App Store"
-                  class="h-10"
-                  loading="lazy"
+                  width="120"
+                  height="40"
+                  class="h-10 w-auto"
                 />
               </a>
             );
           }
           
+          const isInternal = link.url.startsWith('/');
+
           return (
             <a
               href={link.url}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={isInternal ? undefined : '_blank'}
+              rel={isInternal ? undefined : 'noopener noreferrer'}
               class="inline-flex items-center gap-2 px-5 py-2.5 bg-transparent border border-border rounded-lg font-medium text-sm text-text-main transition-all hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/10"
             >
               {link.label}
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-              </svg>
+              {isInternal ? (
+                <span aria-hidden="true">&rarr;</span>
+              ) : (
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              )}
             </a>
           );
         })}
       </div>
     )}
+  </div>
+
+  <div class="mb-16 md:mb-20 -mx-4 sm:mx-0">
+    <img
+      src={project.heroImage}
+      alt={`${project.title} app screens`}
+      width="1920"
+      height="1080"
+      class="w-full aspect-video object-cover sm:rounded-xl border-y sm:border border-border shadow-2xl shadow-black/40"
+      loading="eager"
+      decoding="async"
+      fetchpriority="high"
+    />
   </div>
 
   <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-20">
@@ -87,40 +108,32 @@ const { project, nextProject } = Astro.props as Props;
   </div>
 
   <div class="mb-20 cv-auto">
-    <h2 class="text-2xl font-bold mb-6">Key Features</h2>
-    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4 list-disc list-inside text-text-muted">
-      {project.features.map((feature) => (
-        <li>{feature}</li>
+    <h2 class="text-2xl font-bold mb-6">Features</h2>
+    <ul class="grid grid-cols-1 md:grid-cols-2 gap-x-10 border-t border-border">
+      {project.features.map((feature, idx) => (
+        <li class="flex gap-4 py-4 border-b border-border">
+          <span class="font-mono text-xs text-primary pt-1">{String(idx + 1).padStart(2, '0')}</span>
+          <span class="text-text-main/90 leading-relaxed">{feature}</span>
+        </li>
       ))}
     </ul>
   </div>
 
-  <div class="mb-20 cv-auto">
-    <img
-      src={project.heroImage}
-      alt={project.title}
-      class="w-full aspect-video object-cover rounded-lg border border-border"
-      loading="eager"
-      decoding="async"
-      fetchpriority="high"
-    />
-  </div>
-
   <div class="mb-20 pb-20 border-b border-border cv-auto">
-    <h2 class="text-2xl font-bold mb-8">Project Gallery</h2>
+    <h2 class="text-2xl font-bold mb-8">Screens</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <img
         src={`/assets/${project.id}-1.jpg`}
-        alt={`${project.title} 1`}
-        class="w-full aspect-square object-cover rounded-lg border border-border"
+        alt={`${project.title} screenshot 1`}
+        class="w-full aspect-square object-cover rounded-xl border border-border"
         loading="lazy"
         decoding="async"
         fetchpriority="low"
       />
       <img
         src={`/assets/${project.id}-2.jpg`}
-        alt={`${project.title} 2`}
-        class="w-full aspect-square object-cover rounded-lg border border-border"
+        alt={`${project.title} screenshot 2`}
+        class="w-full aspect-square object-cover rounded-xl border border-border"
         loading="lazy"
         decoding="async"
         fetchpriority="low"
@@ -129,12 +142,11 @@ const { project, nextProject } = Astro.props as Props;
   </div>
 
   {nextProject && (
-    <div class="flex justify-between items-center">
-      <span class="text-text-muted">Next Project</span>
-      <a class="group inline-flex items-center gap-3 text-primary" href={`/project/${nextProject.id}`}>
-        <span class="group-hover:text-primary transition-colors">
-          {nextProject.title.toUpperCase()} &rarr;
-        </span>
+    <div class="flex justify-between items-center pb-8">
+      <span class="font-mono text-xs tracking-[0.2em] text-text-muted">NEXT PROJECT</span>
+      <a class="group inline-flex items-center gap-3 font-display text-2xl md:text-3xl font-bold hover:text-primary transition-colors" href={`/project/${nextProject.id}`}>
+        {nextProject.title}
+        <span class="text-primary transition-transform group-hover:translate-x-1" aria-hidden="true">&rarr;</span>
       </a>
     </div>
   )}

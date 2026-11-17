@@ -1,51 +1,10 @@
+@import '@fontsource-variable/bricolage-grotesque';
+@import '@fontsource-variable/instrument-sans';
+@import '@fontsource-variable/jetbrains-mono';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-@keyframes float-slow {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-20px, 20px);
-  }
-}
-
-@keyframes float-slower {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(30px, -15px);
-  }
-}
-
-@keyframes float-slow-mobile {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(-10px, 10px);
-  }
-}
-
-@keyframes float-slower-mobile {
-  0%, 100% {
-    transform: translate(0, 0);
-  }
-  50% {
-    transform: translate(12px, -8px);
-  }
-}
-
-@keyframes pulse-glow {
-  0%, 100% {
-    opacity: 0.05;
-  }
-  50% {
-    opacity: 0.08;
-  }
-}
 
 @keyframes fade-in {
   from {
@@ -87,18 +46,6 @@
   }
 }
 
-.hero-blob {
-  will-change: transform;
-}
-
-.hero-blob--primary {
-  animation: float-slow 20s ease-in-out infinite;
-}
-
-.hero-blob--accent {
-  animation: float-slower 25s ease-in-out infinite, pulse-glow 6s ease-in-out infinite;
-}
-
 .page-fade-in {
   animation: fade-in 0.5s ease-out;
 }
@@ -106,6 +53,13 @@
 .slide-up-fade {
   animation: slide-up-fade 0.5s ease-out;
 }
+
+/* Staggered reveal: set --i on each child */
+.reveal {
+  animation: slide-up-fade 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(var(--i, 0) * 110ms + 150ms);
+}
+
 
 .cv-auto {
   content-visibility: auto;
@@ -118,17 +72,6 @@
     contain-intrinsic-size: 800px 600px;
   }
 
-  .hero-blob {
-    opacity: 0.12;
-  }
-
-  .hero-blob--primary {
-    animation: float-slow-mobile 18s ease-in-out infinite;
-  }
-
-  .hero-blob--accent {
-    animation: float-slower-mobile 22s ease-in-out infinite, pulse-glow 8s ease-in-out infinite;
-  }
 
   .page-fade-in {
     animation-duration: 0.35s;
@@ -150,10 +93,18 @@
 
 @layer base {
   body {
-    @apply bg-bg text-text-main antialiased;
-    /* Subtle Dot Grid Background */
-    background-image: radial-gradient(var(--tw-colors-border) 1px, transparent 1px);
-    background-size: 32px 32px;
+    @apply bg-bg text-text-main antialiased font-sans;
+    /* Cyan glow at the top + dot grid that fades out toward the edges */
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(64, 208, 255, 0.10), transparent 70%),
+      radial-gradient(rgba(148, 163, 184, 0.13) 1px, transparent 1px);
+    background-size: 100% 100%, 28px 28px;
+    background-attachment: fixed, scroll;
+  }
+
+  h1, h2, h3, .font-display {
+    font-family: theme('fontFamily.display');
+    letter-spacing: -0.02em;
   }
 }
 
@@ -167,14 +118,41 @@
   }
 
   .btn-primary {
-    @apply bg-primary text-black font-semibold px-6 py-3 rounded transition-opacity hover:opacity-90;
+    @apply bg-primary text-black font-semibold px-6 py-3 rounded-lg transition-opacity hover:opacity-90;
   }
 
   .btn-outline {
-    @apply bg-transparent text-text-main border border-border font-semibold px-6 py-3 rounded transition-colors hover:bg-surface hover:border-text-main;
+    @apply bg-transparent text-text-main border border-border font-semibold px-6 py-3 rounded-lg transition-colors hover:bg-surface hover:border-text-main;
   }
 
   .tech-card {
     @apply bg-bg border border-border transition-all duration-200 hover:border-primary hover:-translate-y-0.5;
+  }
+
+  .eyebrow {
+    @apply font-mono text-xs tracking-[0.2em] uppercase text-primary;
+  }
+}
+
+/* Long-form technical writing */
+@layer components {
+  .tech-prose > p {
+    @apply text-text-muted leading-relaxed mb-4;
+  }
+  .tech-prose strong {
+    @apply text-text-main font-semibold;
+  }
+  .tech-prose > ul {
+    @apply grid gap-3 mb-6;
+  }
+  .tech-prose > ul > li {
+    @apply relative pl-6 text-text-muted leading-relaxed;
+  }
+  .tech-prose > ul > li::before {
+    content: '';
+    @apply absolute left-0 top-[0.7em] w-3 h-px bg-primary;
+  }
+  .tech-prose :not(pre) > code {
+    @apply font-mono text-[0.85em] text-accent bg-surface border border-border rounded px-1.5 py-0.5;
   }
 }

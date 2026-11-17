@@ -1,0 +1,209 @@
+---
+// Hidden for now: the underscore keeps Astro from publishing this page. Rename to technical.astro to restore it.
+import Layout from '../../../layouts/Layout.astro';
+import TechSection from '../../../components/tech/TechSection.astro';
+
+const principles = [
+  { value: '0', label: 'Background tracking', detail: 'Location is never collected passively.' },
+  { value: '3+', label: 'People before a count shows', detail: 'Small groups stay invisible.' },
+  { value: '06:00', label: 'Every night expires', detail: 'Live check-ins are gone by morning.' },
+  { value: 'DB', label: 'Enforces who sees what', detail: 'Access rules run in PostgreSQL.' },
+];
+
+const toc = [
+  ['architecture', 'Architecture'],
+  ['check-in', 'Check-ins'],
+  ['privacy', 'Privacy'],
+  ['realtime', 'Realtime'],
+  ['security', 'Security'],
+  ['map', 'Map'],
+  ['stack', 'Stack'],
+];
+
+const checkInSteps = [
+  ['Choose', 'The user picks a venue and how many people they are with.'],
+  ['Verify', 'The server confirms who they are and validates the request.'],
+  ['Limit', 'Rate limiting stops spam and fake crowds.'],
+  ['Record', 'One live check-in per person: checking in elsewhere moves you.'],
+  ['Expire', 'The database stamps it to disappear at the next 06:00.'],
+];
+
+const realtimeFlow = [
+  ['You tap check in', 'Your marker moves and the venue count goes up instantly, before the server has even answered.'],
+  ['The server records it', 'Validated, rate-limited and stored. If anything fails, your screen rolls back to how it was.'],
+  ['The database raises a signal', 'Only the people whose friend circle includes you are listening for your changes.'],
+  ['Friends\u2019 apps ask for fresh data', 'The signal carries nothing sensitive. Each app fetches the update through the same access rules as any other read.'],
+  ['Crowd counts recompute', 'The privacy threshold is applied again on the server, and a burst of changes is merged into a single refresh.'],
+];
+
+const stack = [
+  ['Frontend', 'Next.js (App Router), React, TypeScript, Tailwind CSS'],
+  ['Backend', 'Supabase: PostgreSQL, PostGIS, Auth, Realtime, scheduled jobs'],
+  ['Maps', 'MapLibre GL with vector tiles'],
+  ['Quality', 'Vitest, Playwright, automated security checks'],
+  ['Hosting', 'Vercel'],
+];
+---
+
+<Layout
+  title="Jatkopaikka: how it works"
+  description="How Jatkopaikka shows live nightlife crowds without tracking anyone: anonymous crowd counts, check-ins that expire every morning, realtime updates and database-enforced privacy."
+  image="/assets/jatkopaikka-hero.jpg"
+  type="article"
+>
+  <article class="container pt-12 md:pt-20 pb-8 slide-up-fade">
+    <a href="/project/jatkopaikka" class="inline-flex items-center gap-2 text-sm text-text-muted hover:text-primary transition-colors mb-10">
+      <span aria-hidden="true">&larr;</span> Jatkopaikka case study
+    </a>
+
+    <header class="mb-12 md:mb-16">
+      <p class="eyebrow mb-4">How it works · Social Platform · 2026</p>
+      <h1 class="text-[2.6rem] leading-[0.95] sm:text-6xl lg:text-7xl font-extrabold tracking-[-0.04em] max-w-4xl mb-6">
+        Showing where the crowd is, <span class="text-primary">without tracking anyone.</span>
+      </h1>
+      <p class="text-lg md:text-xl text-text-muted max-w-2xl leading-relaxed">
+        Jatkopaikka answers one question on a Friday night: where is everyone? It does that live, while
+        the database itself decides what each person may see, and it forgets the night by six in the morning.
+      </p>
+    </header>
+
+    <ul class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-border border border-border rounded-xl overflow-hidden mb-10">
+      {principles.map((p) => (
+        <li class="bg-bg p-5 md:p-6">
+          <span class="block font-display text-4xl md:text-5xl font-extrabold text-primary tracking-[-0.04em] mb-3">{p.value}</span>
+          <span class="block font-semibold mb-1">{p.label}</span>
+          <span class="block text-sm text-text-muted leading-relaxed">{p.detail}</span>
+        </li>
+      ))}
+    </ul>
+
+    <nav aria-label="Sections" class="flex flex-wrap gap-2 mb-6">
+      {toc.map(([id, label], i) => (
+        <a href={`#${id}`} class="font-mono text-xs border border-border rounded-full px-3 py-1.5 text-text-muted hover:text-primary hover:border-primary transition-colors">
+          {String(i + 1).padStart(2, '0')} {label}
+        </a>
+      ))}
+    </nav>
+
+    <TechSection id="architecture" index="01" title="Architecture" lede="A thin client on top of a database that owns the rules.">
+      <p>
+        The web app is a <strong>view layer</strong>. It never writes to the database directly: every change
+        goes through server code that checks who is asking and whether the input makes sense. Every read is
+        filtered by the database's own access rules, so even a buggy screen can't show something it shouldn't.
+      </p>
+
+      <div class="my-8 grid gap-3 text-sm" aria-label="Architecture diagram">
+        <div class="rounded-lg border border-border bg-surface/60 p-4">
+          <span class="font-mono text-xs text-primary block mb-1">BROWSER</span>
+          <span class="font-semibold block">Next.js web app</span>
+          <span class="text-text-muted text-xs">Map, venue lists, friends. Display only.</span>
+        </div>
+        <div class="text-center font-mono text-xs text-text-muted">↓ requests &nbsp;&nbsp;&nbsp; ↑ live updates</div>
+        <div class="rounded-lg border border-primary/40 bg-primary/5 p-4">
+          <span class="font-mono text-xs text-primary block mb-1">SERVER</span>
+          <span class="font-semibold block">Server actions and API routes on Vercel</span>
+          <span class="text-text-muted text-xs">Sessions, input validation, rate limiting, all writes</span>
+        </div>
+        <div class="text-center font-mono text-xs text-text-muted">↓</div>
+        <div class="rounded-lg border border-lime/40 bg-lime/5 p-4">
+          <span class="font-mono text-xs text-lime block mb-1">DATA</span>
+          <span class="font-semibold block">PostgreSQL + PostGIS on Supabase</span>
+          <span class="text-text-muted text-xs">Row-level access rules, privacy logic, scheduled clean-up, realtime events</span>
+        </div>
+      </div>
+    </TechSection>
+
+    <TechSection id="check-in" index="02" title="Check-ins" lede="Every check-in is made by hand.">
+      <p>
+        There is no GPS tracking running in the background. Presence only exists because someone chose to
+        share it, and only for one night.
+      </p>
+      <ol class="my-8 grid gap-px bg-border border border-border rounded-xl overflow-hidden sm:grid-cols-5">
+        {checkInSteps.map(([title, text], i) => (
+          <li class="bg-bg p-4">
+            <span class="font-mono text-xs text-primary block mb-2">{String(i + 1).padStart(2, '0')}</span>
+            <span class="font-semibold block mb-1">{title}</span>
+            <span class="text-sm text-text-muted leading-relaxed block">{text}</span>
+          </li>
+        ))}
+      </ol>
+    </TechSection>
+
+    <TechSection id="privacy" index="03" title="Privacy">
+      <ul>
+        <li><strong>Anonymous crowd counts.</strong> A venue only shows a number once at least three verified people are checked in. Below that it shows nothing, not even a hint that someone is there.</li>
+        <li><strong>Friends only.</strong> You can see a person's location only if you are both accepted friends, and the database's access rules enforce it.</li>
+        <li><strong>The night expires.</strong> Every check-in is stamped to expire at the next 06:00 Helsinki time, and a scheduled job clears what has expired. It handles daylight-saving changes correctly.</li>
+        <li><strong>Bounded history.</strong> Your own check-in history is kept for 30 days and then deleted automatically.</li>
+        <li><strong>Totals-only analytics.</strong> Admin statistics show daily totals. Nothing in them can be traced back to an individual.</li>
+      </ul>
+    </TechSection>
+
+    <TechSection id="realtime" index="04" title="Realtime" lede="The hardest part to build was live updates that follow the same privacy rules.">
+      <p>
+        A nightlife map is only useful if it is live. When a friend walks into a bar, you should see it on the
+        map within a moment. But the privacy rules above make the usual approach impossible: you can't
+        simply broadcast every check-in to everyone and let each phone filter it. Realtime had to respect the
+        same rules as everything else, under the heaviest load of the week, at 1 a.m. on a Saturday.
+      </p>
+
+      <p class="!text-text-main font-semibold !mb-3 mt-8">What happens when you check in</p>
+      <ol class="relative border-l border-border ml-2 mb-10">
+        {realtimeFlow.map(([title, text], i) => (
+          <li class="relative pl-8 pb-6 last:pb-0">
+            <span class="absolute -left-[9px] top-1 w-4 h-4 rounded-full border-2 border-primary bg-bg"></span>
+            <span class="font-mono text-xs text-primary block mb-1">{String(i + 1).padStart(2, '0')}</span>
+            <span class="font-semibold block mb-1">{title}</span>
+            <span class="text-text-muted leading-relaxed block">{text}</span>
+          </li>
+        ))}
+      </ol>
+
+      <p class="!text-text-main font-semibold !mb-3">The problems behind it</p>
+      <ul>
+        <li><strong>Listening only to your own circle.</strong> Each app subscribes only to changes from its own friends. When your friend list changes, the app rebuilds the subscription for the new circle.</li>
+        <li><strong>No data in live events.</strong> A live event only says that something changed. The data itself is always fetched through the server and the database's access rules, so a realtime channel can never become a side door around privacy.</li>
+        <li><strong>Crowd counts on the server.</strong> A venue's crowd number can't be streamed row by row, because the three-person rule has to be applied to the whole venue at once. Counts are recomputed on the server on every change, and a rush at closing time is merged into one update.</li>
+        <li><strong>Optimistic updates.</strong> Your own check-in shows up immediately and moves you out of the previous venue, both on the map and in the counts. If the server says no, everything snaps back. The page never reloads to show the result, so nothing flickers or resets.</li>
+        <li><strong>Newest check-in wins.</strong> If updates arrive out of order, the newest check-in for each person always wins, so nobody ever appears in two places.</li>
+        <li><strong>Reconnecting after sleep.</strong> Phones lock, tabs sleep and networks drop. The app tracks its live connection, and as soon as you come back to it, it catches up on everything you missed.</li>
+      </ul>
+    </TechSection>
+
+    <TechSection id="security" index="05" title="Security" lede="Deny by default, then grant exactly what the app needs.">
+      <ul>
+        <li><strong>All writes on the server.</strong> The browser can't insert, change or delete data on its own. Every input is validated against a schema first.</li>
+        <li><strong>Least privilege.</strong> Database functions are closed to everyone by default and opened one by one, only where the app needs them.</li>
+        <li><strong>Protected profile fields.</strong> Users can edit their own profile, but not the fields that matter for trust, such as verification, admin or ban status.</li>
+        <li><strong>Shared rate limits.</strong> Limit counters are shared across all server instances, so a client can't get around a limit by reaching a different instance. Sensitive endpoints refuse requests outright if the limiter can't be reached.</li>
+        <li><strong>Private storage.</strong> User files are private and served only through short-lived signed links.</li>
+      </ul>
+    </TechSection>
+
+    <TechSection id="map" index="06" title="Map" lede="About 1,370 venues across Finland, one readable map.">
+      <p>
+        The map uses vector tiles, so it stays sharp and fast at every zoom level. Zoomed out, nearby venues merge
+        into hubs. The busiest venue always anchors its hub, so the places that are actually lively stay visible.
+        The clustering only compares venues that could plausibly be neighbours, which keeps it quick even with the
+        whole country on screen.
+      </p>
+    </TechSection>
+
+
+    <TechSection id="stack" index="07" title="Stack">
+      <dl class="border-t border-border">
+        {stack.map(([k, v]) => (
+          <div class="grid sm:grid-cols-[160px_1fr] gap-1 sm:gap-6 py-4 border-b border-border">
+            <dt class="font-mono text-xs tracking-[0.2em] uppercase text-text-muted pt-1">{k}</dt>
+            <dd class="text-text-main/90">{v}</dd>
+          </div>
+        ))}
+      </dl>
+    </TechSection>
+
+    <footer class="border-t border-border pt-12 pb-8 flex flex-col sm:flex-row gap-6 sm:items-center justify-between">
+      <a href="/project/jatkopaikka" class="text-text-muted hover:text-primary transition-colors">&larr; Back to the case study</a>
+      <a href="https://jatkopaikka.com" target="_blank" rel="noopener noreferrer" class="btn-primary self-start">Open jatkopaikka.com</a>
+    </footer>
+  </article>
+</Layout>
