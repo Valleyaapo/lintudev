@@ -14,6 +14,7 @@ export interface Project {
   links?: Array<{
     label: string;
     url: string;
+    download?: boolean;
   }>;
 }
 
@@ -68,6 +69,11 @@ export const projects: Project[] = [
       "No account, no tracking; all data stays on the iPhone"
     ],
     links: [
+      {
+        label: "Download sample deck",
+        url: "/atelier/atelier-sample.apkg",
+        download: true
+      },
       {
         label: "Support",
         url: "/atelier/support"
