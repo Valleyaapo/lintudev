@@ -70,6 +70,10 @@ export const projects: Project[] = [
     ],
     links: [
       {
+        label: "App Store",
+        url: "https://apps.apple.com/fi/app/atelier-flashcards-study/id6835171304"
+      },
+      {
         label: "Download sample deck",
         url: "/atelier/atelier-sample.apkg",
         download: true
